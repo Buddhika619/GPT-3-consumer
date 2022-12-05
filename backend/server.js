@@ -55,7 +55,6 @@ console.log( req.body.formData.subject)
   const completion = await openai.createCompletion({
     model: 'text-davinci-003',
     prompt: `Email in ${tone} from ${From} to ${To} due to ${Reason} about ${subject}`,
-    // prompt: `Cancellation Email in ${tone} from ${From} to ${To} due to ${Reason} about ${subject}`,
     temperature: 1,
     max_tokens: 250,
   })
