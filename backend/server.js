@@ -71,6 +71,26 @@ console.log( req.body.formData.subject)
 })
 
 
+//we dont access __dirname when working with ES modules, it only available for common js modules, so path.resolve is used to mimic the __driname
+const __dirname = path.resolve()
+
+//making the uploads file static so browser can access it
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+
+//after building react application giviing the access to react build version
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/frontend/build')))
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  )
+} else {
+  app.get('/', (req, res) => {
+    res.send('api is running!')
+  })
+}
+
+
 //error handling
 app.use(notFound)
 app.use(errorHandler)

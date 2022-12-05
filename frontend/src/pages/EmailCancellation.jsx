@@ -212,15 +212,17 @@ console.log(data)
         </Button>
       </form>
 
-      <Card href='#'>
+     
       
       {data && (
+        <Card href='#'>
         <p className='font-normal text-gray-700 dark:text-gray-400'>
           {data.result.text}
         </p>
+        </Card>
       )}
        
-      </Card>
+     
     </>
   )
 }
