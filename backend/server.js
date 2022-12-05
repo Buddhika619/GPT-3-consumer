@@ -53,7 +53,7 @@ console.log( req.body.formData.subject)
   const tone = req.body.value.name
   
   const completion = await openai.createCompletion({
-    model: 'text-davinci-003',
+    model: 'text-davinci-001',
     prompt: `Email in ${tone} from ${From} to ${To} due to ${Reason} about ${subject}`,
     temperature: 1,
     max_tokens: 250,
