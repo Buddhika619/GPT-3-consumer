@@ -12,8 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const userModel_js_1 = __importDefault(require("../models/userModel.js"));
-const generateToken_js_1 = __importDefault(require("../Utils/generateToken.js"));
+const userModel_1 = __importDefault(require("../models/userModel"));
+const generateToken_1 = __importDefault(require("../Utils/generateToken"));
 class UserController {
     // @desc  Auth user & get token
     // @route POST /api/users/login
@@ -21,14 +21,14 @@ class UserController {
     auth(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { email, password } = req.body;
-            const user = yield userModel_js_1.default.findOne({ email });
+            const user = yield userModel_1.default.findOne({ email });
             if (user && (yield user.matchPassword(password))) {
                 res.status(200).json({
                     _id: user._id,
                     name: user.name,
                     email: user.email,
                     isAdmin: user.isAdmin,
-                    token: (0, generateToken_js_1.default)(user._id.toString()),
+                    token: (0, generateToken_1.default)(user._id.toString()),
                 });
             }
             else {
@@ -43,14 +43,14 @@ class UserController {
     register(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, email, password } = req.body;
-            const userExists = yield userModel_js_1.default.findOne({ email });
+            const userExists = yield userModel_1.default.findOne({ email });
             // If a user with the provided email already exists, send a 400 response and throw an error
             if (userExists) {
                 res.status(400);
                 throw new Error('User already exists');
             }
             // Create a new user with the provided name, email, and password
-            const user = yield userModel_js_1.default.create(req.body);
+            const user = yield userModel_1.default.create(req.body);
             // If the user was created successfully, send a response with the user's information and a JWT token
             if (user) {
                 res.status(201).json({
@@ -58,7 +58,7 @@ class UserController {
                     name: user.name,
                     email: user.email,
                     isAdmin: user.isAdmin,
-                    token: (0, generateToken_js_1.default)(user._id.toString()),
+                    token: (0, generateToken_1.default)(user._id.toString()),
                 });
             }
             else {
@@ -72,7 +72,7 @@ class UserController {
     // @access Private
     getProfile(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield userModel_js_1.default.findById(req.user._id);
+            const user = yield userModel_1.default.findById(req.user._id);
             // If the user is found, send a response with the user's information
             if (user) {
                 res.status(200).json({

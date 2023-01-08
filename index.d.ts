@@ -1,5 +1,6 @@
 import { Express } from 'express-serve-static-core'
-// import { Types } from 'mongoose'
+
+//adding user property to express req object
 
 interface userData {
   _id?: any

@@ -1,12 +1,13 @@
+import { protect, admin } from '../middleware/authMiddleware'
+import {emailBody, catchySubject,random, followUp} from '../controllers/emailController'
 import express from 'express'
 const router = express.Router()
 
-import {emailBody, catchySubject} from '../controllers/emailController.js'
+// router.post('/', random)
+router.post('/',  emailBody)
+router.post('/follow',  followUp)
 
-import { protect, admin } from '../middleware/authMiddleware.js'
 
-router.post('/thankyou', protect, emailBody)
-router.post('/cancel', protect, emailBody)
-router.post('/subject', protect, catchySubject)
+router.post('/subject',  catchySubject)
 
 export default router

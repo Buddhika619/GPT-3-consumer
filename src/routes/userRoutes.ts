@@ -1,7 +1,7 @@
 import express from 'express'
-import UserController from '../controllers/userController.js'
+import UserController from '../controllers/userController'
 import asyncHandler from 'express-async-handler'
-import { protect } from '../middleware/authMiddleware.js'
+import { protect } from '../middleware/authMiddleware'
 
 // Create a new Express router
 const router = express.Router()

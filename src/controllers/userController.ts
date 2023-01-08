@@ -1,5 +1,5 @@
-import User from '../models/userModel.js'
-import generateToken from '../Utils/generateToken.js'
+import User from '../models/userModel'
+import generateToken from '../Utils/generateToken'
 import { Request, Response } from 'express';
 
 class UserController {

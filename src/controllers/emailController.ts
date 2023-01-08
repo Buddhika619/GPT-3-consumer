@@ -1,11 +1,9 @@
 import asyncHandler from 'express-async-handler'
 import { Request, Response } from 'express'
-import generator from '../config/openai.js'
+import generator from '../config/openai'
 
 interface email {
   subject: string
-  from: string
-  to: string
   reason: string
   tone: string
 }
@@ -17,20 +15,42 @@ interface subject {
 
 
 // @des  Email body
-// @route POST /api/email/thank  &  /api/email/cancel  
+// @route POST /api/email
 // @access private
 const emailBody = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
 
+    console.log(req.body)
     const myEmail: email = {
       subject: req.body.subject.toString(),
-      from: req.body.from.toString(),
-      to: req.body.to.toString(),
       reason: req.body.reason.toString(),
       tone: req.body.tone.toString(),
     }
 
-    const prompt = `Email with ${myEmail.tone} emotion from ${myEmail.from} to ${myEmail.to} due to ${myEmail.reason} about ${myEmail.subject}`
+    const prompt = `Email with ${myEmail.tone} emotion due to ${myEmail.reason} about ${myEmail.subject}`
+
+    const result = await generator('text-davinci-003', prompt, 1, 250, 2)
+
+    res.status(200).json({ result })
+  }
+
+)
+
+
+// @des  Email body
+// @route POST /api/email
+// @access private
+const followUp = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+
+    console.log(req.body)
+    const myEmail: email = {
+      subject: req.body.subject.toString(),
+      reason: req.body.reason.toString(),
+      tone: req.body.tone.toString(),
+    }
+
+    const prompt = `Polite follow-up email with ${myEmail.tone} emotion about ${myEmail.reason} `
 
     const result = await generator('text-davinci-003', prompt, 1, 250, 2)
 
@@ -47,13 +67,13 @@ const catchySubject = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
 
     const mySubject: subject = {
-      subject: req.body.subject.toString(),
+      subject: req.body.reason.toString(),
       tone: req.body.tone.toString(),
     }
 
-    const prompt = `Generate a professional email subject about ${mySubject.subject} in ${mySubject.tone}`
+    const prompt = `Generate a professional email subject about ${mySubject.subject} with  ${mySubject.tone} emotion`
 
-    const result = await generator('text-davinci-001', prompt, 1, 25, 2)
+    const result = await generator('text-davinci-003', prompt, 1, 25, 2)
 
     res.status(200).json({ result })
   }
@@ -61,4 +81,22 @@ const catchySubject = asyncHandler(
 )
 
 
-export { emailBody, catchySubject }
+const random = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+   
+    const prompt:string = req.body.name
+
+    console.log(prompt)
+
+    if(prompt){
+      const result = await generator('text-davinci-003', prompt, 1, 250, 1)
+      res.status(200).json({ result })
+    }
+  
+   
+  }
+
+)
+
+
+export { emailBody, catchySubject,random,followUp }
