@@ -11,6 +11,7 @@
   - DB_STRING = mongo DB connection string 
   - JWT_SECRET = Jason web token secret
   - OPENAI_KEY = Open AI API key
+  - DREAMSTUDIO_KEY = Dreap Studio API key
 ---
 
 # Run
